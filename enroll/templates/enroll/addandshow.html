@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends 'enroll/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-4">
+            <h1 class="text-center alert alert-info">Add Student</h1>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-success" value="Add">
+            </form>
+        </div>
+        <div class="col-sm-7 offset-1">
+            <h1 class="text-center alert alert-info">Student Information</h1>
+            {% if st %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for stu in st %}
+                    <tr>
+                        <th scope="row">{{ stu.id }}</th>
+                        <td>{{ stu.name }}</td>
+                        <td>{{ stu.email }}</td>
+                    <td>
+                        <a href="{% url 'update' stu.id %}" class="btn btn-success">Edit</a>
+                        <form action="{% url 'delete' stu.id %}" class="d-inline" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
+                    </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                No Data
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
